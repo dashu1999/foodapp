@@ -1,1 +1,38 @@
-HTML content
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cart</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    li { margin: 5px 0; }
+  </style>
+</head>
+<body>
+  <h1>Your Cart</h1>
+  <ul id="cartList"></ul>
+  <button onclick="placeOrder()">Place Order</button>
+  <a href="menu.html">Back to Menu</a>
+
+  <script>
+    const cart = JSON.parse(localStorage.getItem('cart') || '[]');
+    const list = document.getElementById('cartList');
+    cart.forEach(item => {
+      const li = document.createElement('li');
+      li.textContent = item;
+      list.appendChild(li);
+    });
+
+    function placeOrder() {
+      const email = localStorage.getItem('currentUser');
+      const orders = JSON.parse(localStorage.getItem(email + '_orders') || '[]');
+      orders.push(cart);
+      localStorage.setItem(email + '_orders', JSON.stringify(orders));
+      localStorage.removeItem('cart');
+      alert('Order placed!');
+      location.reload();
+    }
+  </script>
+</body>
+</html>

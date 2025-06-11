@@ -7,7 +7,7 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f8f9fa;
+      background: linear-gradient(135deg, #f6f8f9 0%, #e9ecef 100%);
       display: flex;
       justify-content: center;
       align-items: center;
@@ -17,37 +17,40 @@
 
     .container {
       background: #ffffff;
-      border-radius: 10px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      width: 350px;
-      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 380px;
+      padding: 40px 30px;
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
 
     h2 {
       text-align: center;
-      margin-bottom: 20px;
-      color: #333;
+      margin-bottom: 25px;
+      color: #343a40;
     }
 
     input[type="text"], input[type="email"], input[type="password"] {
       width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ced4da;
+      border-radius: 8px;
+      font-size: 14px;
     }
 
     button {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       background-color: #28a745;
       border: none;
       color: white;
       font-size: 16px;
-      border-radius: 5px;
+      border-radius: 8px;
       cursor: pointer;
-      margin-top: 10px;
+      margin-top: 15px;
+      transition: background-color 0.2s;
     }
 
     button:hover {
@@ -56,7 +59,7 @@
 
     .toggle-link {
       text-align: center;
-      margin-top: 15px;
+      margin-top: 20px;
       font-size: 14px;
     }
 
@@ -66,6 +69,10 @@
       cursor: pointer;
     }
 
+    .toggle-link a:hover {
+      text-decoration: underline;
+    }
+
     .hidden {
       display: none;
     }
@@ -73,6 +80,22 @@
     #dashboard {
       display: none;
       text-align: center;
+    }
+
+    #dashboard a {
+      display: block;
+      margin: 12px 0;
+      padding: 10px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      color: #28a745;
+      text-decoration: none;
+      font-weight: bold;
+      transition: background-color 0.2s;
+    }
+
+    #dashboard a:hover {
+      background-color: #e2e6ea;
     }
   </style>
 </head>
@@ -112,6 +135,9 @@
 <div class="container" id="dashboard">
   <h2>Welcome, <span id="userName"></span>!</h2>
   <p>You are now logged in to the Online Food Ordering App.</p>
+  <a href="menu.html">🍽 View Menu</a>
+  <a href="cart.html">🛒 View Cart</a>
+  <a href="orders.html">📜 View Orders</a>
   <button onclick="logout()">Logout</button>
 </div>
 
@@ -157,12 +183,14 @@
       document.getElementById('authContainer').style.display = 'none';
       document.getElementById('dashboard').style.display = 'block';
       document.getElementById('userName').innerText = user.name;
+      localStorage.setItem('currentUser', email);
     } else {
       alert('Incorrect password.');
     }
   });
 
   function logout() {
+    localStorage.removeItem('currentUser');
     document.getElementById('dashboard').style.display = 'none';
     document.getElementById('authContainer').style.display = 'block';
     document.getElementById('login').reset();

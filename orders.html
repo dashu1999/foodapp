@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Orders</title>
+  <style>
+    body { font-family: Arial; padding: 20px; }
+    .order { margin-bottom: 15px; border: 1px solid #ccc; padding: 10px; }
+  </style>
+</head>
+<body>
+  <h1>Past Orders</h1>
+  <div id="ordersContainer"></div>
+  <a href="menu.html">Back to Menu</a>
+
+  <script>
+    const email = localStorage.getItem('currentUser');
+    const orders = JSON.parse(localStorage.getItem(email + '_orders') || '[]');
+    const container = document.getElementById('ordersContainer');
+
+    orders.forEach((order, index) => {
+      const div = document.createElement('div');
+      div.className = 'order';
+      div.innerHTML = '<strong>Order #' + (index + 1) + ':</strong><br>' + order.join(', ');
+      container.appendChild(div);
+    });
+  </script>
+</body>
+</html>

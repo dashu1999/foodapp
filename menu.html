@@ -1,1 +1,90 @@
-HTML content
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to right, #f9fafb, #e2e6ea);
+      margin: 0;
+      padding: 20px;
+    }
+    .menu-container, .cart-container, .orders-container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #fff;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+      text-align: center;
+      color: #343a40;
+    }
+    .item, .cart-item, .order {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      margin: 10px 0;
+      background-color: #f8f9fa;
+      border-radius: 8px;
+    }
+    .item button, .cart-item button {
+      padding: 8px 16px;
+      background-color: #28a745;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      cursor: pointer;
+    }
+    .item button:hover, .cart-item button:hover {
+      background-color: #218838;
+    }
+    .back-link {
+      display: block;
+      margin: 20px 0;
+      text-align: center;
+      text-decoration: none;
+      color: #007bff;
+    }
+    .back-link:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Example for Menu Page -->
+<div class="menu-container">
+  <h1>Food Menu</h1>
+  <div class="item">
+    <span>Pizza</span>
+    <button onclick="addToCart('Pizza')">Add to Cart</button>
+  </div>
+  <div class="item">
+    <span>Burger</span>
+    <button onclick="addToCart('Burger')">Add to Cart</button>
+  </div>
+  <div class="item">
+    <span>Pasta</span>
+    <button onclick="addToCart('Pasta')">Add to Cart</button>
+  </div>
+  <a class="back-link" href="dashboard.html">⬅ Back to Dashboard</a>
+</div>
+
+<script>
+  function addToCart(item) {
+    const user = localStorage.getItem('currentUser');
+    if (!user) return alert("You must be logged in.");
+    let cart = JSON.parse(localStorage.getItem(user + '_cart') || '[]');
+    cart.push(item);
+    localStorage.setItem(user + '_cart', JSON.stringify(cart));
+    alert(item + ' added to cart!');
+  }
+</script>
+
+</body>
+</html>
