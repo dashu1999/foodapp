@@ -110,6 +110,43 @@
     loginForm.classList.toggle('hidden');
     registerForm.classList.toggle('hidden');
   }
+
+  document.getElementById('register').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const name = document.getElementById('regName').value;
+    const email = document.getElementById('regEmail').value;
+    const password = document.getElementById('regPassword').value;
+    const confirmPassword = document.getElementById('regConfirmPassword').value;
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match.');
+      return;
+    }
+
+    const user = { name, email, password };
+    localStorage.setItem(email, JSON.stringify(user));
+    alert('Registration successful! You can now log in.');
+    toggleForms();
+  });
+
+  document.getElementById('login').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
+
+    const storedUser = localStorage.getItem(email);
+    if (!storedUser) {
+      alert('No user found with this email.');
+      return;
+    }
+
+    const user = JSON.parse(storedUser);
+    if (user.password === password) {
+      alert('Login successful! Welcome, ' + user.name);
+    } else {
+      alert('Incorrect password.');
+    }
+  });
 </script>
 
 </body>
