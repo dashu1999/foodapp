@@ -1,201 +1,104 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Online Food Ordering - Login & Registration</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: linear-gradient(135deg, #f6f8f9 0%, #e9ecef 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      margin: 0;
-    }
-
-    .container {
-      background: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-      width: 380px;
-      padding: 40px 30px;
-      box-sizing: border-box;
-      transition: all 0.3s ease;
-    }
-
-    h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #343a40;
-    }
-
-    input[type="text"], input[type="email"], input[type="password"] {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border: 1px solid #ced4da;
-      border-radius: 8px;
-      font-size: 14px;
-    }
-
-    button {
-      width: 100%;
-      padding: 12px;
-      background-color: #28a745;
-      border: none;
-      color: white;
-      font-size: 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      margin-top: 15px;
-      transition: background-color 0.2s;
-    }
-
-    button:hover {
-      background-color: #218838;
-    }
-
-    .toggle-link {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-    }
-
-    .toggle-link a {
-      color: #007bff;
-      text-decoration: none;
-      cursor: pointer;
-    }
-
-    .toggle-link a:hover {
-      text-decoration: underline;
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    #dashboard {
-      display: none;
-      text-align: center;
-    }
-
-    #dashboard a {
-      display: block;
-      margin: 12px 0;
-      padding: 10px;
-      background-color: #f8f9fa;
-      border-radius: 6px;
-      color: #28a745;
-      text-decoration: none;
-      font-weight: bold;
-      transition: background-color 0.2s;
-    }
-
-    #dashboard a:hover {
-      background-color: #e2e6ea;
-    }
-  </style>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dixy Food - Food Menu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
 </head>
 <body>
-
-<div class="container" id="authContainer">
-  <!-- Login Form -->
-  <div id="loginForm">
-    <h2>Login</h2>
-    <form id="login">
-      <input type="email" id="loginEmail" placeholder="Email" required>
-      <input type="password" id="loginPassword" placeholder="Password" required>
-      <button type="submit">Login</button>
-    </form>
-    <div class="toggle-link">
-      Don't have an account? <a onclick="toggleForms()">Register here</a>
+  
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="index.html">Dixy App</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link" href="cart.html">Cart</a></li>
+      </ul>
+      <button id="logoutBtn" class="btn btn-outline-light">Logout</button>
     </div>
   </div>
-
-  <!-- Registration Form -->
-  <div id="registerForm" class="hidden">
-    <h2>Register</h2>
-    <form id="register">
-      <input type="text" id="regName" placeholder="Full Name" required>
-      <input type="email" id="regEmail" placeholder="Email" required>
-      <input type="password" id="regPassword" placeholder="Password" required>
-      <input type="password" id="regConfirmPassword" placeholder="Confirm Password" required>
-      <button type="submit">Register</button>
-    </form>
-    <div class="toggle-link">
-      Already have an account? <a onclick="toggleForms()">Login here</a>
-    </div>
-  </div>
-</div>
-
-<!-- Dashboard -->
-<div class="container" id="dashboard">
-  <h2>Welcome, <span id="userName"></span>!</h2>
-  <p>You are now logged in to the Online Food Ordering App.</p>
-  <a href="menu.html">🍽 View Menu</a>
-  <a href="cart.html">🛒 View Cart</a>
-  <a href="orders.html">📜 View Orders</a>
-  <button onclick="logout()">Logout</button>
-</div>
-
+<span class="badge bg-danger ms-2" id="cartBadge">0</span></nav>
 <script>
-  function toggleForms() {
-    const loginForm = document.getElementById('loginForm');
-    const registerForm = document.getElementById('registerForm');
-    loginForm.classList.toggle('hidden');
-    registerForm.classList.toggle('hidden');
-  }
-
-  document.getElementById('register').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const name = document.getElementById('regName').value;
-    const email = document.getElementById('regEmail').value;
-    const password = document.getElementById('regPassword').value;
-    const confirmPassword = document.getElementById('regConfirmPassword').value;
-
-    if (password !== confirmPassword) {
-      alert('Passwords do not match.');
-      return;
-    }
-
-    const user = { name, email, password };
-    localStorage.setItem(email, JSON.stringify(user));
-    alert('Registration successful! You can now log in.');
-    toggleForms();
+  document.getElementById("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("loggedInUser");
+    window.location.href = "login.html";
   });
-
-  document.getElementById('login').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    const storedUser = localStorage.getItem(email);
-    if (!storedUser) {
-      alert('No user found with this email.');
-      return;
-    }
-
-    const user = JSON.parse(storedUser);
-    if (user.password === password) {
-      document.getElementById('authContainer').style.display = 'none';
-      document.getElementById('dashboard').style.display = 'block';
-      document.getElementById('userName').innerText = user.name;
-      localStorage.setItem('currentUser', email);
-    } else {
-      alert('Incorrect password.');
-    }
-  });
-
-  function logout() {
-    localStorage.removeItem('currentUser');
-    document.getElementById('dashboard').style.display = 'none';
-    document.getElementById('authContainer').style.display = 'block';
-    document.getElementById('login').reset();
-  }
 </script>
 
+  <div class="container">
+    <h2 class="mb-3">Filter by Category</h2>
+    <select id="categoryFilter" class="form-select w-25 mb-4">
+      <option value="all">All</option>
+      <option value="pizza">Pizza</option>
+      <option value="burger">Burger</option>
+      <option value="dessert">Dessert</option>
+    </select>
+    <div id="productList" class="row"></div>
+  </div>
+
+  <script>
+    const products = [
+      { name: "Margherita Pizza", category: "pizza", price: 8 },
+      { name: "Cheeseburger", category: "burger", price: 6 },
+      { name: "Chocolate Cake", category: "dessert", price: 5 },
+      { name: "Veggie Pizza", category: "pizza", price: 9 },
+      { name: "Double Burger", category: "burger", price: 7 }
+    ];
+
+    function displayProducts(filter) {
+      const list = document.getElementById("productList");
+      list.innerHTML = "";
+      const filtered = filter === "all" ? products : products.filter(p => p.category === filter);
+      filtered.forEach(p => {
+        const div = document.createElement("div");
+        div.className = "col-md-4 mb-3";
+        div.innerHTML = `
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">${p.name}</h5>
+              <p class="card-text">Category: ${p.category}</p>
+              <p class="card-text">Price: $${p.price}</p>
+              <button class="btn btn-primary" onclick='addToCart(${JSON.stringify(p)})'>Add to Cart</button>
+            </div>
+          </div>`;
+        list.appendChild(div);
+      });
+    }
+
+    function addToCart(product) {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      cart.push(product);
+      localStorage.setItem("cart", JSON.stringify(cart));
+      alert("Added to cart!");
+    }
+
+    document.getElementById("categoryFilter").addEventListener("change", (e) => {
+      displayProducts(e.target.value);
+    });
+
+    displayProducts("all");
+  </script>
 </body>
 </html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    let count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    const badge = document.getElementById("cartBadge");
+    if (badge) badge.innerText = count;
+  });
+</script>
+
+<script>
+  function logout() {
+    localStorage.removeItem("user");
+    window.location.href = "login.html";
+  }
+</script>
