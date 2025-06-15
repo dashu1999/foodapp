@@ -1,3 +1,5 @@
+// Task 06
+
 let cart = [];
 let foodDetailsInformation = [];
 function addToCart(foodId) {
